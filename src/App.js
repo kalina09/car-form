@@ -1,23 +1,28 @@
-import logo from './logo.svg';
-import './App.css';
+import Form from './components/Form';
 
 function App() {
+  // send the inputs information to firebase only for valid inputs
+  async function addInformationHandler(information) {
+    const response = await fetch(
+      'https://react-project-6cbff-default-rtdb.firebaseio.com/information.json',
+      {
+        method: 'POST',
+        body: JSON.stringify(information),
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      }
+    );
+    const data = await response.json();
+
+    // open the developer console to see the results
+    console.log(data);
+    console.log(information);
+  }
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="app">
+      <Form onAddInformation={addInformationHandler} />
     </div>
   );
 }
